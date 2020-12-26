@@ -1,0 +1,26 @@
+# package directories
+node_modules
+jspm_packages
+lib/nodejs/node_modules
+
+# Serverless directories
+.serverless
+
+# Webpack directories
+.webpack
+
+# Auto-generated Envs
+.env
+.env.*
+
+# env files for personal developer stage
+# you can add your env.stage.json file here and remove it from git index with git rm --cached env/env.stage.json
+env/*
+!env/env.prod.json
+!env/env.dev.json
+
+# TypeOrm config file
+ormconfig.json
+
+# Leave the README file out for a while
+README.md

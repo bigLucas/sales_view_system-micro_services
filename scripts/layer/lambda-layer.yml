@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  libs:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: basic-package-nodejs-lib
+      Description: Basic dependencies.
+      ContentUri: ../../lib/.
+      CompatibleRuntimes:
+        - nodejs12.x
+      RetentionPolicy: Retain
+
+Outputs:
+  LayerVersionId:
+    Value:
+      Ref: libs
+    Export:
+      Name: layer-version-id

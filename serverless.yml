@@ -1,0 +1,103 @@
+service:
+  name: portfolio-server
+
+# Add aws' resources from different files here
+resources:
+    #
+    # Default APIGateway
+    # We explicitly declare an API Gateway so we can use it with all different services across the project
+    #
+  # - ${file(resources/api-gateway.yml)}
+  # - ${file(resources/api-gateway-response.yml)}
+  # - ${file(resources/lambda-layer.yml)}
+  Outputs:
+    LibsLayerExport:
+        Value:
+          Ref: LibsLambdaLayer
+        Export:
+          Name: LibsLambdaLayer
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-export-env
+  # - serverless-offline
+  # - serverless-cloudformation-parameters
+package:
+  exclude:
+    - test/**
+    - test.*
+    - .env
+    - .git/**
+    - .gitignore
+    - .DS_Store
+    - npm-debug.log
+    - .serverless/**
+    - .serverless_plugins/**
+
+# Define custom variables here
+# custom:
+  # APi Gateway URL
+  # apiGwUrl:
+  #   Fn::Join:
+  #     - ''
+  #     - - https://
+  #       - Ref: SharedApiGateway
+  #       - .execute-api.
+  #       - ${self:provider.region}
+  #       - .amazonaws.com/
+  #       - ${self:provider.region}
+  # parameters:
+  #   createGroups:
+  #     Type: String
+  #     Default: yes
+  #     AllowedValues:
+  #       - yes
+  #       - no
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  profile: default
+  memorySize: 512
+  timeout: 3
+  logRetentionInDays: 7
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: '*'
+      Resource: '*'
+  # apiGateway:
+  #   restApiId:
+  #     Ref: SharedApiGateway
+  #   restApiRootResourceId:
+  #     Fn::GetAtt: [ SharedApiGateway, RootResourceId ]
+  deploymentBucket:
+    name: portfolio-deployment-bucket-${self:provider.stage}
+    serverSideEncryption: AES256
+  # endpointType: regional
+  logs:
+    restApi: true
+  # Inject process.env variables here
+  environment:
+    # End of Env attributes helper
+    STAGE: ${self:provider.stage}
+    REGION: ${self:provider.region}
+    # URL: ${self:custom.apiGwUrl}
+    DATABASE_TYPE: ${file(./env/env.${self:provider.stage}.json):DATABASE_TYPE}
+    # DATABASE_HOST: ${self:custom.rdsEndpoint}
+    # DATABASE_PORT: ${self:custom.rdsPort}
+    # DATABASE_NAME: ${self:custom.databaseName}
+    DATABASE_USERNAME: ${file(./env/env.${self:provider.stage}.json):DATABASE_USERNAME}
+    DATABASE_PASSWORD: ${file(./env/env.${self:provider.stage}.json):DATABASE_PASSWORD}
+    DATABASE_SYNCHRONIZE: ${file(./env/env.${self:provider.stage}.json):DATABASE_SYNCHRONIZE}
+    DATABASE_LOGGING: ${file(./env/env.${self:provider.stage}.json):DATABASE_LOGGING}
+    DATABASE_ENTITIES: src/api/models/**/*.ts
+    DATABASE_ENTITIES_DIR: src/api/models
+    DATABASE_MIGRATIONS: src/core/database/migrations/**/*.ts
+    DATABASE_MIGRATIONS_DIR: src/core/database/migrations
+
+layers:
+  libs:
+    path: ./lib/nodejs
