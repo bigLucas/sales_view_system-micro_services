@@ -2,7 +2,7 @@ service:
   name: portfolio-server
 
 # Add aws' resources from different files here
-resources:
+# resources:
     #
     # Default APIGateway
     # We explicitly declare an API Gateway so we can use it with all different services across the project
@@ -10,18 +10,15 @@ resources:
   # - ${file(resources/api-gateway.yml)}
   # - ${file(resources/api-gateway-response.yml)}
   # - ${file(resources/lambda-layer.yml)}
-  Outputs:
-    LibsLayerExport:
-        Value:
-          Ref: LibsLambdaLayer
-        Export:
-          Name: LibsLambdaLayer
 
 plugins:
   - serverless-deployment-bucket
+  - serverless-webpack
   - serverless-export-env
+  - serverless-layers
   # - serverless-offline
   # - serverless-cloudformation-parameters
+
 package:
   exclude:
     - test/**
@@ -35,7 +32,13 @@ package:
     - .serverless_plugins/**
 
 # Define custom variables here
-# custom:
+custom:
+  webpack:
+    keepOutputDirectory: true
+    webpackConfig: ./webpack.config.js
+    includeModules: false
+  serverless-layers:
+    dependenciesPath: ./package.json
   # APi Gateway URL
   # apiGwUrl:
   #   Fn::Join:
@@ -98,6 +101,8 @@ provider:
     DATABASE_MIGRATIONS: src/core/database/migrations/**/*.ts
     DATABASE_MIGRATIONS_DIR: src/core/database/migrations
 
-layers:
-  libs:
-    path: ./lib/nodejs
+functions:
+  DataGeneration:
+    handler: ./src/workers/handlers/data-generation-handler/DataGenerationHandler.handler
+    events:
+      - schedule: cron(0 10 * * ? *) # run every day at 10 o'clock UTC time

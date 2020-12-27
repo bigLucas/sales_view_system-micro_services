@@ -2,7 +2,7 @@
 set -eo pipefail
 echo "Remember to change env variables of stage and uncomment plugin serverless-export-env inside each serverless.yml"
 echo ""
-stage=${STAGE:-frontend}
+stage=${STAGE:-dev}
 
 for dir in ./src/api/handlers/*/
 do
@@ -16,5 +16,5 @@ done
 # run at project root
 # to turn executable and run:
 # chmod +x deploy_to_aws.sh && sudo STAGE='stage_name' ./deploy_to_aws.sh
-# or, to deploy in frontend stage
+# or, to deploy in dev stage
 # chmod +x deploy_to_aws.sh && sudo ./deploy_to_aws.sh
