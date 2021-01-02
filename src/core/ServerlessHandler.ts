@@ -1,8 +1,6 @@
-import {Context, Callback} from 'aws-lambda';
+import { Context, Callback } from 'aws-lambda';
 
-export default abstract class ServerlessHandler<T, T1>{
-    public abstract onHandleEvent(event: T, context: Context): Promise<T1>;
-
+export abstract class ServerlessHandler<T, T1> {
     public execute(event: T, context: Context, callback: Callback): void {
         this.onHandleEvent(event, context)
             .then((response) => this.onReplyResponse(response, callback))
@@ -16,4 +14,6 @@ export default abstract class ServerlessHandler<T, T1>{
     protected onReplyError(error: Error, callback: Callback): void {
         callback(error, undefined);
     }
+
+    public abstract onHandleEvent(event: T, context: Context): Promise<T1>;
 }

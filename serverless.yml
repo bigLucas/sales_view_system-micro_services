@@ -2,14 +2,14 @@ service:
   name: portfolio-server
 
 # Add aws' resources from different files here
-# resources:
+resources:
     #
     # Default APIGateway
     # We explicitly declare an API Gateway so we can use it with all different services across the project
     #
   # - ${file(resources/api-gateway.yml)}
   # - ${file(resources/api-gateway-response.yml)}
-  # - ${file(resources/lambda-layer.yml)}
+  - ${file(resources/s3-bucket.yml)}
 
 plugins:
   - serverless-deployment-bucket
@@ -39,6 +39,8 @@ custom:
     includeModules: false
   serverless-layers:
     dependenciesPath: ./package.json
+  file-storage-bucket-name:
+    Fn::ImportValue: portfolio-file-storage-name-${self:provider.stage}
   # APi Gateway URL
   # apiGwUrl:
   #   Fn::Join:
@@ -100,6 +102,7 @@ provider:
     DATABASE_ENTITIES_DIR: src/api/models
     DATABASE_MIGRATIONS: src/core/database/migrations/**/*.ts
     DATABASE_MIGRATIONS_DIR: src/core/database/migrations
+    FILE_STORAGE_BUCKET_NAME: ${self:custom.file-storage-bucket-name}
 
 functions:
   DataGeneration:

@@ -1,0 +1,17 @@
+Resources:
+  FileStorage:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketEncryption: 
+        ServerSideEncryptionConfiguration: 
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: AES256
+      BucketName: portfolio-file-storage-${self:provider.stage}
+      
+Outputs:
+  BucketName:
+    Value:
+      Ref: FileStorage
+    Export:
+      Name: portfolio-file-storage-name-${self:provider.stage}

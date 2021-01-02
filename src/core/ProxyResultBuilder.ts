@@ -1,10 +1,10 @@
 import { ProxyResult } from 'aws-lambda';
 
-export default class ProxyResultBuilder {
+export class ProxyResultBuilder {
 
     protected response: Partial<ProxyResult> = {};
 
-    constructor() {
+    public constructor() {
         this.response.headers = {};
     }
 
@@ -13,7 +13,7 @@ export default class ProxyResultBuilder {
         return this;
     }
 
-    public body(body: string | object): ProxyResultBuilder {
+    public body(body: string | any): ProxyResultBuilder {
         if (typeof body === 'string') {
             this.response.body = body;
         } else if (typeof body === 'object') {
