@@ -5,13 +5,13 @@
   "private": true,
   "scripts": {
     "test": "nps test.unit",
-    "deploy-test": "nps deploy.test",
+    "deploy": "nps deploy.dev",
     "sync": "nps db.sync",
     "orm-config": "nps db.config",
     "migration-create": "nps db.config && ts-node ./node_modules/typeorm/cli.js migration:create -d src/core/database/migrations",
     "migrate": "nps db.migrate.run",
     "revert": "nps db.migrate.revert",
-    "setup": "nps db.setup"
+    "db-setup": "nps db.setup"
   },
   "dependencies": {
     "aws-lambda": "^1.0.6",

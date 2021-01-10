@@ -1,3 +1,6 @@
+import { BrandTypes } from '../../models/enums/BrandTypes';
+import { FundingAccountTypes } from '../../models/enums/FundingAccountTypes';
+
 export const COMMERCIAL_CODE_AND_MERCHANT_CODE = [
     {
         commercialCode: 1,
@@ -17,33 +20,22 @@ export const COMMERCIAL_CODE_AND_MERCHANT_CODE = [
     },
 ];
 
-export enum CARD_BRAND {
-    MASTER_CARD = 'Master Card',
-    VISA = 'Visa',
-    ELO = 'Elo',
-}
-
-export enum FUNDING_ACCOUNT {
-    DEBIT = 'Debit',
-    CREDIT = 'Credit',
-}
-
 export const MDR = {
-    [CARD_BRAND.MASTER_CARD]: {
+    [BrandTypes.MASTER_CARD]: {
         debit: 3,
         '1': 4,
         '2': 5,
         '3': 6,
         '4': 7,
     },
-    [CARD_BRAND.VISA]: {
+    [BrandTypes.VISA]: {
         debit: 4,
         '1': 3,
         '2': 4,
         '3': 5,
         '4': 6,
     },
-    [CARD_BRAND.ELO]: {
+    [BrandTypes.ELO]: {
         debit: 2,
         '1': 4,
         '2': 5,
@@ -55,29 +47,29 @@ export const MDR = {
 export const CARD = [
     {
         digits: '3452********4343',
-        brand: CARD_BRAND.MASTER_CARD,
-        fundingAccount: FUNDING_ACCOUNT.CREDIT,
+        brand: BrandTypes.MASTER_CARD,
+        fundingAccount: FundingAccountTypes.CREDIT,
         city: 'Sao Paulo',
         country: 'Brazil',
     },
     {
         digits: '3455********4344',
-        brand: CARD_BRAND.MASTER_CARD,
-        fundingAccount: FUNDING_ACCOUNT.DEBIT,
+        brand: BrandTypes.MASTER_CARD,
+        fundingAccount: FundingAccountTypes.DEBIT,
         city: 'New York',
         country: 'United States of America',
     },
     {
         digits: '5452********4341',
-        brand: CARD_BRAND.VISA,
-        fundingAccount: FUNDING_ACCOUNT.CREDIT,
+        brand: BrandTypes.VISA,
+        fundingAccount: FundingAccountTypes.CREDIT,
         city: 'Campinas',
         country: 'Brazil',
     },
     {
         digits: '5452********4345',
-        brand: CARD_BRAND.ELO,
-        fundingAccount: FUNDING_ACCOUNT.CREDIT,
+        brand: BrandTypes.ELO,
+        fundingAccount: FundingAccountTypes.CREDIT,
         city: 'Araras',
         country: 'Brazil',
     },

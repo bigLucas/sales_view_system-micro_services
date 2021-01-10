@@ -1,16 +1,16 @@
 import { ElectronicDataInterchange } from '../models/ElectronicDataInterchange';
+import { BrandTypes } from '../models/enums/BrandTypes';
+import { FundingAccountTypes } from '../models/enums/FundingAccountTypes';
 import { Header } from '../models/Header';
 import { Sale } from '../models/Sale';
 import { Tail } from '../models/Tail';
 import {
     CARD,
     GROSS_AMOUNT,
-    FUNDING_ACCOUNT,
     MDR,
     COMMERCIAL_CODE_AND_MERCHANT_CODE,
     BONUS_LEVEL,
     FUTURE_CHARGE,
-    CARD_BRAND,
 } from './DummyData/EdiDummyData';
 
 export class DataGenerationService {
@@ -66,8 +66,8 @@ export class DataGenerationService {
         sale.country = card.country;
         sale.grossAmount = this.generateGrossAmount();
         sale.mdr = this.generateMdr(
-            sale.fundingAccount as FUNDING_ACCOUNT,
-            sale.cardBrand as CARD_BRAND,
+            sale.fundingAccount as FundingAccountTypes,
+            sale.cardBrand as BrandTypes,
             sale.totalInstallmentsNumber
         );
         sale.netAmount = this.generateNetAmount(sale.grossAmount, sale.mdr);
@@ -89,18 +89,18 @@ export class DataGenerationService {
     }
 
     private static generateMdr(
-        fundingAccount: FUNDING_ACCOUNT,
-        cardBrand: CARD_BRAND,
+        fundingAccount: FundingAccountTypes,
+        cardBrand: BrandTypes,
         totalInstallmentsNumber: number
     ): number {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return fundingAccount === FUNDING_ACCOUNT.DEBIT
+        return fundingAccount === FundingAccountTypes.DEBIT
             ? MDR[cardBrand].debit
             : MDR[cardBrand][totalInstallmentsNumber];
     }
 
-    private static generateTotalInstallmentsNumber(fundingAccount: FUNDING_ACCOUNT): number {
-        return fundingAccount === FUNDING_ACCOUNT.DEBIT ? 1 : this.randomIntFromInterval(1, 3);
+    private static generateTotalInstallmentsNumber(fundingAccount: FundingAccountTypes): number {
+        return fundingAccount === FundingAccountTypes.DEBIT ? 1 : this.randomIntFromInterval(1, 3);
     }
 
     private static generateSaleDate(date: Date): Date {

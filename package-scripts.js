@@ -4,7 +4,7 @@ module.exports = {
     scripts: {
         db: {
             config: {
-                script: series('sls export-env', runFast('./src/core/database/ormconfig.ts')),
+                script: series('sls export-env', runFast('./src/core/database/orm.config.ts')),
                 description: 'Generates ormconfig.json file',
             },
             sync: {

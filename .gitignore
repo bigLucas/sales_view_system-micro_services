@@ -17,7 +17,6 @@ lib/nodejs/node_modules
 # you can add your env.stage.json file here and remove it from git index with git rm --cached env/env.stage.json
 env/*
 !env/env.prod.json
-!env/env.dev.json
 
 # TypeOrm config file
 ormconfig.json

@@ -1,5 +1,5 @@
-service:
-  name: portfolio-server
+service: portfolio-server
+useDotenv: true
 
 # Add aws' resources from different files here
 resources:
@@ -91,17 +91,17 @@ provider:
     REGION: ${self:provider.region}
     # URL: ${self:custom.apiGwUrl}
     DATABASE_TYPE: ${file(./env/env.${self:provider.stage}.json):DATABASE_TYPE}
-    # DATABASE_HOST: ${self:custom.rdsEndpoint}
-    # DATABASE_PORT: ${self:custom.rdsPort}
-    # DATABASE_NAME: ${self:custom.databaseName}
+    DATABASE_HOST: ${file(./env/env.${self:provider.stage}.json):DATABASE_HOST}
+    DATABASE_PORT: ${file(./env/env.${self:provider.stage}.json):DATABASE_PORT}
+    DATABASE_NAME: ${file(./env/env.${self:provider.stage}.json):DATABASE_NAME}
     DATABASE_USERNAME: ${file(./env/env.${self:provider.stage}.json):DATABASE_USERNAME}
     DATABASE_PASSWORD: ${file(./env/env.${self:provider.stage}.json):DATABASE_PASSWORD}
     DATABASE_SYNCHRONIZE: ${file(./env/env.${self:provider.stage}.json):DATABASE_SYNCHRONIZE}
     DATABASE_LOGGING: ${file(./env/env.${self:provider.stage}.json):DATABASE_LOGGING}
-    DATABASE_ENTITIES: src/api/models/**/*.ts
-    DATABASE_ENTITIES_DIR: src/api/models
-    DATABASE_MIGRATIONS: src/core/database/migrations/**/*.ts
-    DATABASE_MIGRATIONS_DIR: src/core/database/migrations
+    DATABASE_ENTITIES: src/workers/models/**/*.ts
+    DATABASE_ENTITIES_DIR: src/workers/models
+    # DATABASE_MIGRATIONS: src/core/database/migrations/**/*.ts
+    # DATABASE_MIGRATIONS_DIR: src/core/database/migrations
     FILE_STORAGE_BUCKET_NAME: ${self:custom.file-storage-bucket-name}
 
 functions:
