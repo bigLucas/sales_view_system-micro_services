@@ -2,7 +2,14 @@
 - This is a code repository to store the micro-services of sales view system.
 This micro-services has as main purpose generate dummy data of credit card sales, and extract, parse and store this data.
 
-- Built using Serverless framework with node.js/Typescript inside AWS' infrastructure.
+- In this repository we have the code of the **cron work** and **step-functions**.
+
+<!-- - The code of the API is in another repository -->
+
+- Built using **Serverless** framework with **node.js/Typescript** inside **AWS**' infrastructure.
+
+- Macro architecture of sales view system:
+- ![Macro architecture](readme-images/macro_architecture.png)
 
 ## **Pre-Requisites**
 1. First need to install serverless framework globally. to do so, run this following command on terminal:
@@ -50,7 +57,7 @@ To run jest tests we need to install it globally by running:
 `npm i -g jest`
 
 
-All the scripts defined in this file can be run by npm, just by adding them inside *scripts* in *package.json*. So, using the script above, we'd define package.json's
+All the scripts defined in `package-scripts.js` file can be run by npm, just by adding them inside *scripts* in `package.json`. So, using the script above, we'd define package.json's
 scripts like:
 ```json
 "scripts": {
