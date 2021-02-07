@@ -1,7 +1,7 @@
 {
-  "name": "portfolio-micro-services",
+  "name": "sales-view-system-micro-services",
   "version": "0.0.0",
-  "description": "Portfolio micro-services",
+  "description": "Sales view system micro-services",
   "private": true,
   "scripts": {
     "test": "nps test.unit",

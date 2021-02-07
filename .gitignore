@@ -20,7 +20,3 @@ env/*
 
 # TypeOrm config file
 ormconfig.json
-
-# Leave the README file out for a while
-README.md
-TODO.md
