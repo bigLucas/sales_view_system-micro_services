@@ -1,4 +1,4 @@
-import { getOsEnv, getOsEnvModels, getOsPath, toBool } from './utils';
+import { getOsEnv } from './utils';
 
 /** Use *utils.ts* functions to import values from `proccess.env()` */
 export const env = {
@@ -8,19 +8,5 @@ export const env = {
     },
     aws: {
         fileStorageBucketName: getOsEnv('FILE_STORAGE_BUCKET_NAME'),
-    },
-    database: {
-        type: getOsEnv('DATABASE_TYPE'),
-        host: getOsEnv('DATABASE_HOST'),
-        port: parseInt(getOsEnv('DATABASE_PORT'), 10),
-        username: getOsEnv('DATABASE_USERNAME'),
-        password: getOsEnv('DATABASE_PASSWORD'),
-        database: getOsEnv('DATABASE_NAME'),
-        synchronize: toBool(getOsEnv('DATABASE_SYNCHRONIZE')),
-        logging: toBool(getOsEnv('DATABASE_LOGGING')),
-        entitiesDir: getOsPath('DATABASE_ENTITIES_DIR'),
-        entities: getOsEnvModels('DATABASE_ENTITIES'),
-        migrationsDir: getOsPath('DATABASE_MIGRATIONS_DIR'),
-        migrations: [],
     },
 };

@@ -8,12 +8,13 @@ export class S3Service {
     }
 
     public async upload(fileName: string, fileContent: string): Promise<void> {
+        const params = {
+            Bucket: this.bucketName,
+            Key: fileName,
+            Body: fileContent,
+        };
         await this.s3
-            .upload({
-                Bucket: this.bucketName,
-                Key: fileName,
-                Body: fileContent,
-            })
+            .upload(params)
             .promise();
     }
 }

@@ -4,12 +4,6 @@ const slsw = require('serverless-webpack');
 const fs = require('fs');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
-/**
-  TypeOrm does not work well with webpack, we inject a env variable here to be used at .env.ts
-  to define how typeorm will receive it's params.
-*/
-slsw.lib.serverless.service.provider.environment.isWebpacked = true;
-
 const getExternals = async () => {
   const IMPORT_MODE = 'commonjs2 ';
   const packageBuffer = await fs.promises.readFile('./package.json');

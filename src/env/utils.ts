@@ -1,5 +1,4 @@
 import { join } from 'path';
-import { __MODELS__ } from './Models';
 
 export const getOsEnv = (key: string): string | undefined => {
     return process.env[key];
@@ -30,16 +29,4 @@ export const getOsEnvArray = (key: string, delimiter: string = ','): string[] =>
 
 export const toBool = (value: string): boolean => {
     return value === 'true';
-};
-
-/*
-    The function below are used to configure TypeOrm connection
-    If the code is bundled with webpack, TypeOrm loses it's references to the objects
-    so we check if it's packed with webpack and if so we return an array with all objects imported
-    if it's not, we return the path for typeorm's CLI
-*/
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const getOsEnvModels = (key: string): (string | (Function))[] => {
-    return getOsEnv('isWebpacked') ? __MODELS__ : getOsPaths(key);
 };

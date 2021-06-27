@@ -3,12 +3,6 @@ useDotenv: true
 
 # Add aws' resources from different files here
 resources:
-    #
-    # Default APIGateway
-    # We explicitly declare an API Gateway so we can use it with all different services across the project
-    #
-  # - ${file(resources/api-gateway.yml)}
-  # - ${file(resources/api-gateway-response.yml)}
   - ${file(resources/s3-bucket.yml)}
 
 plugins:
@@ -16,8 +10,6 @@ plugins:
   - serverless-webpack
   - serverless-export-env
   - serverless-layers
-  # - serverless-offline
-  # - serverless-cloudformation-parameters
 
 package:
   exclude:
@@ -41,67 +33,29 @@ custom:
     dependenciesPath: ./package.json
   file-storage-bucket-name:
     Fn::ImportValue: portfolio-file-storage-name-${self:provider.stage}
-  # APi Gateway URL
-  # apiGwUrl:
-  #   Fn::Join:
-  #     - ''
-  #     - - https://
-  #       - Ref: SharedApiGateway
-  #       - .execute-api.
-  #       - ${self:provider.region}
-  #       - .amazonaws.com/
-  #       - ${self:provider.region}
-  # parameters:
-  #   createGroups:
-  #     Type: String
-  #     Default: yes
-  #     AllowedValues:
-  #       - yes
-  #       - no
 
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   region: ${opt:region, 'us-east-1'}
   stage: ${opt:stage, 'dev'}
   profile: default
   memorySize: 512
   timeout: 3
   logRetentionInDays: 7
+  versionFunctions: false
   iamRoleStatements:
     - Effect: "Allow"
       Action: '*'
       Resource: '*'
-  # apiGateway:
-  #   restApiId:
-  #     Ref: SharedApiGateway
-  #   restApiRootResourceId:
-  #     Fn::GetAtt: [ SharedApiGateway, RootResourceId ]
   deploymentBucket:
     name: portfolio-deployment-bucket-${self:provider.stage}
     serverSideEncryption: AES256
-  # endpointType: regional
-  logs:
-    restApi: true
   # Inject process.env variables here
   environment:
-    # End of Env attributes helper
     STAGE: ${self:provider.stage}
     REGION: ${self:provider.region}
-    # URL: ${self:custom.apiGwUrl}
-    DATABASE_TYPE: ${file(./env/env.${self:provider.stage}.json):DATABASE_TYPE}
-    DATABASE_HOST: ${file(./env/env.${self:provider.stage}.json):DATABASE_HOST}
-    DATABASE_PORT: ${file(./env/env.${self:provider.stage}.json):DATABASE_PORT}
-    DATABASE_NAME: ${file(./env/env.${self:provider.stage}.json):DATABASE_NAME}
-    DATABASE_USERNAME: ${file(./env/env.${self:provider.stage}.json):DATABASE_USERNAME}
-    DATABASE_PASSWORD: ${file(./env/env.${self:provider.stage}.json):DATABASE_PASSWORD}
-    DATABASE_SYNCHRONIZE: ${file(./env/env.${self:provider.stage}.json):DATABASE_SYNCHRONIZE}
-    DATABASE_LOGGING: ${file(./env/env.${self:provider.stage}.json):DATABASE_LOGGING}
-    DATABASE_ENTITIES: src/workers/models/**/*.ts
-    DATABASE_ENTITIES_DIR: src/workers/models
-    # DATABASE_MIGRATIONS: src/core/database/migrations/**/*.ts
-    # DATABASE_MIGRATIONS_DIR: src/core/database/migrations
     FILE_STORAGE_BUCKET_NAME: ${self:custom.file-storage-bucket-name}
 
 functions:
